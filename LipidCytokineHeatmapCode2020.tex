@@ -1,0 +1,353 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Heatmap Lipid Cytokines},
+            pdfauthor={Katie},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Heatmap Lipid Cytokines}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Katie}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{September 12, 2019}
+
+
+\begin{document}
+\maketitle
+
+\subsubsection{import packages}\label{import-packages}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(pheatmap)}
+\KeywordTok{library}\NormalTok{(readr)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{read in data}\label{read-in-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# reading in cytokine data}
+\NormalTok{cytokine18 <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"cytokines0619.csv"}\NormalTok{, }\DataTypeTok{na =} \StringTok{"N/A"}\NormalTok{)}
+
+\CommentTok{# reading in lipid data}
+\NormalTok{lipid18 <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"lipids0619.csv"}\NormalTok{, }\DataTypeTok{na =} \StringTok{'N/A'}\NormalTok{)}
+
+\CommentTok{#reading in clinical data}
+\NormalTok{clinic18 <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"clinical819_rev.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{merge lipids and
+cytokines}\label{merge-lipids-and-cytokines}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alldata <-}\StringTok{ }\KeywordTok{inner_join}\NormalTok{(cytokine18, lipid18, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"SampleID"}\NormalTok{, }\StringTok{"LGLLType"}\NormalTok{,  }\StringTok{"Age"}\NormalTok{, }\StringTok{"Gender"}\NormalTok{, }\StringTok{"Immuno"}\NormalTok{, }\StringTok{"STAT3mut"}\NormalTok{, }\StringTok{"STAT3status"}\NormalTok{, }\StringTok{"Statin"}\NormalTok{, }\StringTok{"FishOil"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Merge all data with clinical
+data}\label{merge-all-data-with-clinical-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alldata <-}\StringTok{ }\KeywordTok{left_join}\NormalTok{(alldata, clinic18, }\DataTypeTok{by =} \KeywordTok{c}\NormalTok{(}\StringTok{"SampleID"}\NormalTok{,  }\StringTok{"Gender"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+We decided to impute with the median for all of these variables because
+distributions can be skewed for LGL patients
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alldata %>%}
+\StringTok{  }\CommentTok{#filter(Immuno == "N") %>%}
+\StringTok{  }\KeywordTok{group_by}\NormalTok{(LGLLType) %>%}
+\StringTok{  }\KeywordTok{summarise}\NormalTok{(}\DataTypeTok{med_sICAM =} \KeywordTok{median}\NormalTok{(sICAM_1, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{), }
+            \DataTypeTok{med_sFASlig =} \KeywordTok{median}\NormalTok{(sFas_Ligand, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{), }
+            \DataTypeTok{med_sFAS =} \KeywordTok{median}\NormalTok{(sFas, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{), }
+            \DataTypeTok{med_sVCAM1 =} \KeywordTok{median}\NormalTok{(sVCAM_1, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 5
+##   LGLLType     med_sICAM med_sFASlig med_sFAS med_sVCAM1
+##   <chr>            <dbl>       <dbl>    <dbl>      <dbl>
+## 1 NK-LGLL         196501        165.    8198.   1322002 
+## 2 Normal Donor    150931         75     6192     777563 
+## 3 T-LGLL          207846        115.    7522    1185792.
+\end{verbatim}
+
+Now impute using the above medians for normal patients. These values do
+not change with / without Immuno line because patients taking
+immunosuppression drugs were leukemic patients rather than normals
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alldata$sICAM_1[}\DecValTok{71}\NormalTok{] <-}\StringTok{ }\DecValTok{150931} \CommentTok{#patient 73 is at row 71}
+\NormalTok{alldata$sFas_Ligand[}\DecValTok{71}\NormalTok{]<-}\StringTok{ }\DecValTok{75}
+\NormalTok{alldata$sFas[}\DecValTok{71}\NormalTok{]<-}\DecValTok{6192}
+\NormalTok{alldata$sVCAM_1[}\DecValTok{71}\NormalTok{]<-}\StringTok{ }\DecValTok{777563}
+\end{Highlighting}
+\end{Shaded}
+
+Check for other missing values on biomarkers
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alldata %>%}
+\StringTok{  }\NormalTok{dplyr::}\KeywordTok{select}\NormalTok{(MIG:SMC26_1) %>%}
+\StringTok{  }\KeywordTok{is.na}\NormalTok{() %>%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+No other missing values
+
+\subsubsection{Remove Patients on immunosuppressive
+treatment}\label{remove-patients-on-immunosuppressive-treatment}
+
+\textbf{ALSO remove patient ID == 20} Patient 20 was excluded because
+they were initially incorrectly identified and were found to be on
+immunosuppressive treatment
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{alldata_noImmuno <-}\StringTok{ }\NormalTok{alldata %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(Immuno ==}\StringTok{ "N"}\NormalTok{) %>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(SampleID !=}\StringTok{ }\DecValTok{20}\NormalTok{)}
+\KeywordTok{rm}\NormalTok{(alldata)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Pre-processing for Heatmap}\label{pre-processing-for-heatmap}
+
+\subsubsection{Create biomarker
+dataframe}\label{create-biomarker-dataframe}
+
+selecting the biomarkers from alldata\_noImmuno
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{biomarkers_noImmuno <-}\StringTok{ }\NormalTok{alldata_noImmuno %>%}
+\StringTok{  }\NormalTok{dplyr::}\KeywordTok{select}\NormalTok{(MIG:SMC26_1)}
+
+\CommentTok{# drop tgfb3 because it has 0 variance (all observations below limit of detection)}
+\NormalTok{biomarkers_noImmuno <-}\StringTok{ }\NormalTok{biomarkers_noImmuno %>%}
+\StringTok{  }\NormalTok{dplyr::}\KeywordTok{select}\NormalTok{(-TGFB3)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{log10 transform of data}\label{log10-transform-of-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{biomarkers_noImmuno <-}\StringTok{ }\KeywordTok{log10}\NormalTok{(biomarkers_noImmuno)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{scale data}\label{scale-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{biomarkers_noImmuno <-}\StringTok{ }\KeywordTok{scale}\NormalTok{(biomarkers_noImmuno)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{set row names for main matrix
+values}\label{set-row-names-for-main-matrix-values}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rownames}\NormalTok{(biomarkers_noImmuno) <-}\StringTok{ }\NormalTok{alldata_noImmuno$SampleID}
+
+\KeywordTok{write.csv}\NormalTok{(biomarkers_noImmuno, }\DataTypeTok{file =} \StringTok{"biomarkers_noImmuno.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{make col/row annotation
+dataframes}\label{make-colrow-annotation-dataframes}
+
+Because we want to annotate the heatmap with these variables, we're
+making a dataframe of them. \textbf{Ensure that the annotation dataframe
+and the biomarker dataframe have the same patient order}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annrow_df <-}\StringTok{ }\NormalTok{alldata_noImmuno %>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(Gender, LGLLType, STAT3status, MCV, Hgb, ANC)}
+\KeywordTok{rownames}\NormalTok{(annrow_df) <-}\StringTok{ }\NormalTok{alldata_noImmuno$SampleID}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Setting row names on a tibble is deprecated.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{annrow_df$Gender <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(annrow_df$Gender)}
+\NormalTok{annrow_df$LGLLType <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(annrow_df$LGLLType)}
+\NormalTok{annrow_df$STAT3status <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(annrow_df$STAT3status)}
+
+\KeywordTok{write.csv}\NormalTok{(annrow_df, }\DataTypeTok{file =} \StringTok{"annotations.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Create the Heatmap}\label{create-the-heatmap}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#loads in the files for plotting and set sampleID (currently column 1) as the rownames}
+\NormalTok{biomarkers_noImmuno <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"biomarkers_noImmuno.csv"}\NormalTok{, }\DataTypeTok{row.names =} \DecValTok{1}\NormalTok{)}
+\NormalTok{sample_ann_df <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"annotations.csv"}\NormalTok{, }\DataTypeTok{row.names =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#sets annotation colors}
+\NormalTok{ann_colors =}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{Gender =} \KeywordTok{c}\NormalTok{(}\DataTypeTok{M =} \StringTok{'turquoise'}\NormalTok{, }\DataTypeTok{F =} \StringTok{'plum'}\NormalTok{), }
+                  \DataTypeTok{LGLLType =} \KeywordTok{c}\NormalTok{(}\StringTok{"NK-LGLL"} \NormalTok{=}\StringTok{ "gold"}\NormalTok{, }\StringTok{"Normal Donor"} \NormalTok{=}\StringTok{ 'orchid1'}\NormalTok{, }\StringTok{"T-LGLL"} \NormalTok{=}\StringTok{ "deepskyblue"}\NormalTok{), }
+                  \DataTypeTok{STAT3status =} \KeywordTok{c}\NormalTok{(}\DataTypeTok{D661I =} \StringTok{'deepskyblue'}\NormalTok{, }\DataTypeTok{D661Y =} \StringTok{'palegreen'}\NormalTok{, }\DataTypeTok{K658R =} \StringTok{'pink'}\NormalTok{, }\DataTypeTok{N647I =} \StringTok{'darkorange'}\NormalTok{, }\DataTypeTok{S614R =} \StringTok{'palegoldenrod'}\NormalTok{, }\DataTypeTok{WT =} \StringTok{'azure2'}\NormalTok{, }\DataTypeTok{Y640F =} \StringTok{'darkorchid'}\NormalTok{, }\StringTok{'Y640F, D661Y'} \NormalTok{=}\StringTok{ 'royalblue'}\NormalTok{, }\StringTok{'Y640F, I659L'} \NormalTok{=}\StringTok{ 'violet'}\NormalTok{, }\StringTok{'Y640F, Q643H'} \NormalTok{=}\StringTok{ 'black'}\NormalTok{))}
+
+\CommentTok{#plots heatmap}
+\KeywordTok{options}\NormalTok{(}\StringTok{'repr.plot.height'} \NormalTok{=}\StringTok{ }\DecValTok{12}\NormalTok{, }\StringTok{'repr.plot.width'} \NormalTok{=}\StringTok{ }\DecValTok{12}\NormalTok{)}
+\NormalTok{p <-}\StringTok{ }\KeywordTok{pheatmap}\NormalTok{(}\KeywordTok{t}\NormalTok{(biomarkers_noImmuno),}
+              \DataTypeTok{color =} \KeywordTok{colorRampPalette}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"white"}\NormalTok{, }\StringTok{"red"}\NormalTok{))(}\DataTypeTok{n =} \DecValTok{1000}\NormalTok{),}
+              \DataTypeTok{clustering_distance_rows =} \StringTok{"euclidean"}\NormalTok{,}
+              \DataTypeTok{clustering_distance_cols =} \StringTok{'euclidean'}\NormalTok{,}
+              \DataTypeTok{annotation_col =} \NormalTok{sample_ann_df,}
+              \DataTypeTok{annotation_colors =} \NormalTok{ann_colors,}
+              \DataTypeTok{main =} \StringTok{'Lipid and Cytokine Clustered Heatmap'}\NormalTok{, }
+              \DataTypeTok{border_color =} \OtherTok{NA}\NormalTok{,}
+              \DataTypeTok{show_colnames =} \OtherTok{FALSE}\NormalTok{,}
+              \DataTypeTok{height =} \DecValTok{9}\NormalTok{,}
+              \DataTypeTok{width =} \FloatTok{9.5}\NormalTok{,}
+              \DataTypeTok{filename =} \StringTok{"newheatmap.png"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

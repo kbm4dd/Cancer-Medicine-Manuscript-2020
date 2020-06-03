@@ -1,0 +1,158 @@
+---
+title: "Heatmap Lipid Cytokines"
+author: "Katie"
+date: "September 12, 2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+### import packages
+```{r, message=FALSE}
+library(tidyverse)
+library(pheatmap)
+library(readr)
+```
+
+### read in data
+```{r, message=FALSE}
+# reading in cytokine data
+cytokine18 <- read_csv("cytokines0619.csv", na = "N/A")
+
+# reading in lipid data
+lipid18 <- read_csv("lipids0619.csv", na = 'N/A')
+
+#reading in clinical data
+clinic18 <- read_csv("clinical819_rev.csv")
+```
+
+### merge lipids and cytokines
+```{r}
+alldata <- inner_join(cytokine18, lipid18, by = c("SampleID", "LGLLType",  "Age", "Gender", "Immuno", "STAT3mut", "STAT3status", "Statin", "FishOil"))
+```
+
+### Merge all data with clinical data
+```{r}
+alldata <- left_join(alldata, clinic18, by = c("SampleID",  "Gender"))
+```
+
+We decided to impute with the median for all of these variables because distributions can be skewed for LGL patients
+
+```{r}
+alldata %>%
+  #filter(Immuno == "N") %>%
+  group_by(LGLLType) %>%
+  summarise(med_sICAM = median(sICAM_1, na.rm = TRUE), 
+            med_sFASlig = median(sFas_Ligand, na.rm = TRUE), 
+            med_sFAS = median(sFas, na.rm = TRUE), 
+            med_sVCAM1 = median(sVCAM_1, na.rm = TRUE))
+```
+
+Now impute using the above medians for normal patients. 
+These values do not change with / without Immuno line because patients taking immunosuppression drugs were leukemic patients rather than normals
+
+```{r}
+alldata$sICAM_1[71] <- 150931 #patient 73 is at row 71
+alldata$sFas_Ligand[71]<- 75
+alldata$sFas[71]<-6192
+alldata$sVCAM_1[71]<- 777563
+```
+
+Check for other missing values on biomarkers
+
+```{r}
+alldata %>%
+  dplyr::select(MIG:SMC26_1) %>%
+  is.na() %>%
+  sum()
+```
+No other missing values
+
+###Remove Patients on immunosuppressive treatment
+
+**ALSO remove patient ID == 20**
+Patient 20 was excluded because they were initially incorrectly identified and were found to be on immunosuppressive treatment
+```{r}
+alldata_noImmuno <- alldata %>%
+  filter(Immuno == "N") %>%
+  filter(SampleID != 20)
+rm(alldata)
+```
+
+# Pre-processing for Heatmap
+
+### Create biomarker dataframe
+selecting the biomarkers from alldata_noImmuno
+
+```{r}
+biomarkers_noImmuno <- alldata_noImmuno %>%
+  dplyr::select(MIG:SMC26_1)
+
+# drop tgfb3 because it has 0 variance (all observations below limit of detection)
+biomarkers_noImmuno <- biomarkers_noImmuno %>%
+  dplyr::select(-TGFB3)
+```
+
+### log10 transform of data
+```{r}
+biomarkers_noImmuno <- log10(biomarkers_noImmuno)
+```
+
+### scale data
+```{r}
+biomarkers_noImmuno <- scale(biomarkers_noImmuno)
+```
+
+### set row names for main matrix values
+```{r}
+rownames(biomarkers_noImmuno) <- alldata_noImmuno$SampleID
+
+write.csv(biomarkers_noImmuno, file = "biomarkers_noImmuno.csv")
+```
+
+### make col/row annotation dataframes
+Because we want to annotate the heatmap with these variables, we're making a dataframe of them.
+**Ensure that the annotation dataframe and the biomarker dataframe have the same patient order**
+```{r}
+
+annrow_df <- alldata_noImmuno %>%
+  select(Gender, LGLLType, STAT3status, MCV, Hgb, ANC)
+rownames(annrow_df) <- alldata_noImmuno$SampleID
+annrow_df$Gender <- factor(annrow_df$Gender)
+annrow_df$LGLLType <- factor(annrow_df$LGLLType)
+annrow_df$STAT3status <- factor(annrow_df$STAT3status)
+
+write.csv(annrow_df, file = "annotations.csv")
+```
+
+#Create the Heatmap
+```{r}
+#loads in the files for plotting and set sampleID (currently column 1) as the rownames
+biomarkers_noImmuno <- read.csv("biomarkers_noImmuno.csv", row.names = 1)
+sample_ann_df <- read.csv("annotations.csv", row.names = 1)
+```
+
+```{r}
+#sets annotation colors
+ann_colors = list(Gender = c(M = 'turquoise', F = 'plum'), 
+                  LGLLType = c("NK-LGLL" = "gold", "Normal Donor" = 'orchid1', "T-LGLL" = "deepskyblue"), 
+                  STAT3status = c(D661I = 'deepskyblue', D661Y = 'palegreen', K658R = 'pink', N647I = 'darkorange', S614R = 'palegoldenrod', WT = 'azure2', Y640F = 'darkorchid', 'Y640F, D661Y' = 'royalblue', 'Y640F, I659L' = 'violet', 'Y640F, Q643H' = 'black'))
+
+#plots heatmap
+options('repr.plot.height' = 12, 'repr.plot.width' = 12)
+p <- pheatmap(t(biomarkers_noImmuno),
+              color = colorRampPalette(c("blue", "white", "red"))(n = 1000),
+              clustering_distance_rows = "euclidean",
+              clustering_distance_cols = 'euclidean',
+              annotation_col = sample_ann_df,
+              annotation_colors = ann_colors,
+              main = 'Lipid and Cytokine Clustered Heatmap', 
+              border_color = NA,
+              show_colnames = FALSE,
+              height = 9,
+              width = 9.5,
+              filename = "newheatmap.png")
+
+```
+
+
